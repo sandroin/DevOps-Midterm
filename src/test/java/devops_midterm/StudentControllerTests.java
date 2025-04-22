@@ -38,40 +38,40 @@ public class StudentControllerTests {
     @DisplayName("Should add a new student successfully")
     public void testAddStudent() throws Exception {
         Student student = new Student();
-        student.setName("Alice");
-        student.setEmail("alice@example.com");
+        student.setName("Sandro");
+        student.setEmail("sandro@gmail.com");
 
         mockMvc.perform(post("/students/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(student)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.name").value("Alice"))
-                .andExpect(jsonPath("$.email").value("alice@example.com"));
+                .andExpect(jsonPath("$.name").value("Sandro"))
+                .andExpect(jsonPath("$.email").value("sandro@gmail.com"));
     }
 
     @Test
     @DisplayName("Should retrieve all students")
     public void testGetAllStudents() throws Exception {
-        studentRepository.save(new Student(null, "Bob", "bob@example.com"));
-        studentRepository.save(new Student(null, "Carol", "carol@example.com"));
+        studentRepository.save(new Student(null, "Saba", "saba@gmail.com"));
+        studentRepository.save(new Student(null, "Gio", "gio@gmail.com"));
 
         mockMvc.perform(get("/students/all"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].name", anyOf(is("Bob"), is("Carol"))))
-                .andExpect(jsonPath("$[1].email", anyOf(is("bob@example.com"), is("carol@example.com"))));
+                .andExpect(jsonPath("$[0].name", anyOf(is("Saba"), is("Gio"))))
+                .andExpect(jsonPath("$[1].email", anyOf(is("saba@gmail.com"), is("gio@gmail.com"))));
     }
 
     @Test
     @DisplayName("Should return student by ID")
     public void testGetStudentById() throws Exception {
-        Student student = studentRepository.save(new Student(null, "Dave", "dave@example.com"));
+        Student student = studentRepository.save(new Student(null, "Ana", "ana@gmail.com"));
 
         mockMvc.perform(get("/students/" + student.getId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Dave"))
-                .andExpect(jsonPath("$.email").value("dave@example.com"));
+                .andExpect(jsonPath("$.name").value("Ana"))
+                .andExpect(jsonPath("$.email").value("ana@gmail.com"));
     }
 
     @Test
