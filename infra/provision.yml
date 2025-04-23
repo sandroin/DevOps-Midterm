@@ -1,0 +1,27 @@
+---
+- name: Set up DevOps environment
+  hosts: localhost
+  become: true
+
+  tasks:
+    - name: Install Java, Maven, Git
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - openjdk-17-jdk
+        - maven
+        - git
+
+    - name: Create deployment folder
+      file:
+        path: ~/devops-midterm
+        state: directory
+        mode: '0755'
+
+    - name: Copy project files
+      copy:
+        src: ../
+        dest: ~/devops-midterm/
+        remote_src: no
